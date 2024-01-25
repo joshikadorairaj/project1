@@ -24,7 +24,7 @@ jobs:
           cache: maven
 
       - name: Copy application.properties
-        run: cp .github/application.properties src/main/resources/application.properties
+        run: cp application.properties src/main/resources/application.properties
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
@@ -50,7 +50,7 @@ jobs:
           cache: maven
 
       - name: Copy application.properties for SonarQube analysis
-        run: cp .github/application.properties src/main/resources/application.properties
+        run: cp application.properties src/main/resources/application.properties
 
       - name: Build and analyze with SonarQube
         run:  mvn -B verify sonar:sonar -Dsonar.projectKey=joshikadorairaj_project1 -Dsonar.organization=joshikadorairaj -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
