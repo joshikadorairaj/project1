@@ -1,0 +1,35 @@
+logging:
+  level:
+    ROOT: INFO
+    org.springframework: ERROR
+    org.hibernate: ERROR
+    org.springframework.aop: DEBUG
+  pattern:
+    console: "- %msg%n"
+    file: "logs/sb1.%d{yyyy-MM-dd-HH-mm}.log"
+  file:
+    name: logs/sb1.log
+    file-name-pattern: logs/sb1.%d{yyyy-MM-dd-HH-mm}.log
+    max-size: 5KB
+    max-history: 5
+ 
+server:
+  port: 8080
+ 
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:h2:file:/data/AOP
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
