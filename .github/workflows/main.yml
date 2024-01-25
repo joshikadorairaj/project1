@@ -1,5 +1,5 @@
-name: Java CI with Maven
- 
+name: Java CI with Maven and SonarQube
+
 on:
   push:
     branches:
@@ -7,44 +7,51 @@ on:
   pull_request:
     branches:
       - main
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
- 
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
- 
+
+      - name: Copy application.properties
+        run: cp .github/application.properties src/main/resources/application.properties
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
- 
+
       - name: Archive Artifact
         uses: actions/upload-artifact@v2
         with:
           name: project1-artifact
           path: target/
+
   sonar:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
- 
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
- 
+
+      - name: Copy application.properties for SonarQube analysis
+        run: cp .github/application.properties src/main/resources/application.properties
+
       - name: Build and analyze with SonarQube
         run:  mvn -B verify sonar:sonar -Dsonar.projectKey=joshikadorairaj_project1 -Dsonar.organization=joshikadorairaj -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
         env:
